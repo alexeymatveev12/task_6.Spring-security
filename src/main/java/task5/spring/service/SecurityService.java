@@ -3,9 +3,8 @@ package task5.spring.service;
 
 
 public interface SecurityService {
+    String findLoggedInUsername();
 
+    void autoLogin(String username, String password);
 
-    String findLoggedInLogin();
-
-    void autoLogin(String login, String password);
 }

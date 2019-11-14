@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import task5.spring.dao.UserDao;
 import task5.spring.model.Role;
@@ -20,10 +21,8 @@ import java.util.Set;
 
  */
 
-
-public class UserDetailsServiceImpl /*implements UserDetailsService*/ {
-
-
+@Service("userDetailsService")
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     // @Autowired
     private UserDao userDao;
@@ -34,17 +33,17 @@ public class UserDetailsServiceImpl /*implements UserDetailsService*/ {
     }
 
 
-
- //   @Override
+    @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByLogin(String login) throws UsernameNotFoundException {
-        User user = userDao.findUserByLogin(login);
-
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userDao.findByUsername(username);
+//создаю новый сет разрешений
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-
+//в цикле дабавлюя в разрешения пользователя все роли, которые храняться в БД
         for (Role role : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), grantedAuthorities);
+        //юзер: имя, пароль, РАЗРЕШЕНИЯ (из ролей)
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }

@@ -126,19 +126,7 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
 
-    public void updateUser2(User user) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.createQuery("UPDATE User SET name=:name, login=:login, password=:password, role=:role WHERE id=:id")
-                .setParameter("name", user.getName())
-                .setParameter("login", user.getLogin())
-                .setParameter("password", user.getPassword())
-                .setParameter("role", user.getRole())
-                .setParameter("id", user.getId())
-                .executeUpdate();
 
-        transaction.commit();
-    }
 
     //7-й удалить пользователя через ID
     @Override
@@ -159,12 +147,12 @@ public class UserDaoHibernateImpl implements UserDao {
 
     }
 
-
+@Deprecated
     //8-й проверить есть ли зарегистрированный пользователь
     // с искомым login и password
     @Override
     public User isExist(String login, String password) {
-        Session session = sessionFactory.openSession();
+ /*       Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("from User where login = :userLogin");
         List<User> userList = query.setParameter("userLogin", login).list();
@@ -178,13 +166,16 @@ public class UserDaoHibernateImpl implements UserDao {
         transaction.commit();
         session.close();
         return userExist;
+
+  */
+        return null;
     }
 
     //9-й проверка по логину  - Секьюрити
     @Override
-    public User findUserByLogin(String login) {
+    public User findByUsername(String username) {
         Session session = this.sessionFactory.getCurrentSession();
-        return (User) session.load(User.class, login);
+        return (User) session.load(User.class, username);
     }
 
     //10-й сохранение?????  - Секьюрити

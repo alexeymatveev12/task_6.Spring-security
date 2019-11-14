@@ -34,7 +34,7 @@ public interface UserDao {
     public User isExist(String login, String password);
 
     //9-й проверка по логину  - Секьюрити
-    User findUserByLogin(String login);
+    User findByUsername(String username);
 
     //10-й сохранение?????  - Секьюрити
     void save(User user);

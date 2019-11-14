@@ -23,7 +23,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Login</th>
+            <th>Username</th>
             <th>Password</th>
             <th>Role</th>
             <th>Confirmation - Update the record</th>
@@ -40,10 +40,10 @@
                 <p>Новое значение</p>
                 <input type="text" name="name" required="required"
                        value="<c:out value='${user.name}'/>"/></td>
-            <td align="center" size="30"><p>Текущее значение:</p><h5><c:out value="${user.login}"/></h5>
+            <td align="center" size="30"><p>Текущее значение:</p><h5><c:out value="${user.username}"/></h5>
                 <p>Новое значение</p>
-                <input type="text" name="login" required="required"
-                       value="<c:out value='${user.login}'/>"/></td>
+                <input type="text" name="username" required="required"
+                       value="<c:out value='${user.username}'/>"/></td>
             <td align="center" size="30"><p>Текущее значение:</p><h5><c:out value="${user.password}"/></h5>
                 <p>Новое значение</p>
                 <input type="text" name="password" required="required"

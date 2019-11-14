@@ -3,6 +3,7 @@ package task5.spring.service;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Service("userService")
+@Service
+        //("userService")
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
@@ -24,14 +27,15 @@ public class UserServiceImpl implements UserService {
  //   @Autowired
     private RoleDao roleDao;
 
- //   @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    @Autowired
+//    @Bean
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserDao userDao, RoleDao roleDao /* , BCryptPasswordEncoder bCryptPasswordEncoder*/) {
         this.userDao = userDao;
         this.roleDao = roleDao;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+      //  this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     //   @Autowired
@@ -121,7 +125,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+      //  user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+      //  user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
         roles.add(roleDao.getOne(1L));
         user.setRoles(roles);
@@ -129,15 +134,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByLogin(String login) {
-        return userDao.findUserByLogin(login);
+    public User findByUsername(String username) {
+        return userDao.findByUsername(username);
     }
-
-
-
-
-
-
 
 
 

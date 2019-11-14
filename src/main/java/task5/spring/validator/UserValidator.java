@@ -12,7 +12,7 @@ import task5.spring.service.UserService;
 @Component
 public class UserValidator implements Validator {
 
-
+ //   @Autowired
     private UserService userService;
 
     @Autowired
@@ -22,6 +22,7 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
+       //подтверждаем, что является экземпляром юзер
         return User.class.equals(aClass);
     }
 
@@ -30,11 +31,11 @@ public class UserValidator implements Validator {
         User user = (User) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
-        if (user.getLogin().length() < 8 || user.getLogin().length() > 32) {
+        if (user.getUsername().length() < 8 || user.getUsername().length() > 32) {
             errors.rejectValue("username", "Size.userForm.username");
         }
 
-        if (userService.findByLogin(user.getLogin()) != null) {
+        if (userService.findByUsername(user.getUsername()) != null) {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 

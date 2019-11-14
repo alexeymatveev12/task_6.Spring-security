@@ -13,11 +13,12 @@ import org.springframework.stereotype.Service;
 
 
 @Service
+        //("securityService")
 public class SecurityServiceImpl implements SecurityService {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
 
-//    @Autowired
+  // @Autowired
     private AuthenticationManager authenticationManager;
 
  //   @Autowired
@@ -35,33 +36,38 @@ public class SecurityServiceImpl implements SecurityService {
     }
 */
     @Autowired
-    public SecurityServiceImpl(UserDetailsService userDetailsService, AuthenticationManager authenticationManager) {
+
+    //Это что??? Could not autowire. No beans of 'UserDetailsService' type found.
+    public SecurityServiceImpl(UserDetailsService userDetailsService/*, AuthenticationManager authenticationManager*/) {
         this.userDetailsService = userDetailsService;
-        this.authenticationManager = authenticationManager;
+    //    this.authenticationManager = authenticationManager;
     }
 
     @Override
-    public String findLoggedInLogin() {
+    public String findLoggedInUsername() {
+        //объект содержит данные по юзеру
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         if (userDetails instanceof UserDetails) {
-            return ((UserDetails) userDetails).getUsername();// login!!!!!!!!!!!
+            //получаю имя, залогиненного пользователя
+            return ((UserDetails) userDetails).getUsername();
         }
 
         return null;
     }
 
     @Override
-    public void autoLogin(String login, String password) {
-        UserDetails userDetails = userDetailsService.loadUserByLogin(login);
+    public void autoLogin(String username, String password) {
+       //экземпляр юзерДетэйлс
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-
+//ауторизация
         authenticationManager.authenticate(authenticationToken);
-
+//если токен ауторизован, то залогирование
         if (authenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-            logger.debug(String.format("Successfully %s auto logged in", login));
+            logger.debug(String.format("Successfully %s auto logged in", username));
         }
     }
 }

@@ -17,8 +17,10 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "login")
-    private String login;
+
+
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "role")
     private String role;
@@ -54,17 +56,17 @@ public class User {
 
     }
 
-    public User(String name, String login, String password, String role) {
+    public User(String name, String username, String password, String role) {
         this.name = name;
-        this.login = login;
+        this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public User(long id, String name, String login, String password, String role) {
+    public User(long id, String name, String username, String password, String role) {
         this.id = id;
         this.name = name;
-        this.login = login;
+        this.username = username;
         this.password = password;
         this.role = role;
     }
@@ -85,12 +87,13 @@ public class User {
         this.name = name;
     }
 
-    public String getLogin() {
-        return login;
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 
@@ -111,6 +114,6 @@ public class User {
 
     @Override
     public String toString() {
-        return ("id: " + id + "; name: " + name + "; login: " + login + "; password: " + password + "; role: " + role);
+        return ("id: " + id + "; name: " + name + "; username: " + username + "; password: " + password + "; role: " + role);
     }
 }

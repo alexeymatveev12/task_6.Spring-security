@@ -3,22 +3,37 @@ package task5.spring.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import task5.spring.model.User;
+import task5.spring.service.SecurityService;
 import task5.spring.service.UserService;
+import task5.spring.validator.UserValidator;
 
 @Controller
 public class UserController {
     private UserService userService;
+    //@Autowired
+    private SecurityService securityService;
+
+    //@Autowired
+    private UserValidator userValidator;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, SecurityService securityService, UserValidator userValidator) {
         this.userService = userService;
+        this.securityService=securityService;
+        this.userValidator=userValidator;
     }
+
+
+
+
+
 
     @Deprecated
     //setter - deprecated
@@ -43,20 +58,36 @@ public class UserController {
     }
 
     //GET - page Create
-    @RequestMapping(value = "create", method = RequestMethod.GET)
-    public String addPage(@ModelAttribute("create") User user, Model model) {
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public String addPage(@ModelAttribute("registration") User user, Model model) {
         model.addAttribute("user", new User());
-        return "create";
+        return "registration";
     }
 
-
     //POST - page Create - create the user
-    @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("create") User user) {
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String addUser(@ModelAttribute("registration") User user) {
 
         userService.addUser(user);
         return "redirect:/";
     }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+        userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+
+        userService.save(userForm);
+
+        securityService.autoLogin(userForm.getUsername(), userForm.getConfirmPassword());
+
+        return "redirect:/welcome";
+    }
+
+
 /////////////////////////////////////////////
 
 //GET - обновляем страница обновления
@@ -94,6 +125,29 @@ public class UserController {
         return "read";
     }
 
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(Model model, String error, String logout) {
+        if (error != null) {
+            model.addAttribute("error", "Username or password is incorrect.");
+        }
+
+        if (logout != null) {
+            model.addAttribute("message", "Logged out successfully.");
+        }
+
+        return "login";
+    }
+
+    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+    public String welcome(Model model) {
+        return "welcome";
+    }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String admin(Model model) {
+        return "admin";
+    }
 
 
 }

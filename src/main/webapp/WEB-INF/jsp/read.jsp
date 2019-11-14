@@ -19,7 +19,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Login</th>
+            <th>Username</th>
             <th>Password</th>
             <th>Role</th>
             <th>Change the record - Update</th>
@@ -32,7 +32,7 @@
             <tr>
                 <td align="center" size="200"><c:out value="${user.id}"/></td>
                 <td align="center" size="30"><c:out value="${user.name}"/></td>
-                <td align="center" size="30"><c:out value="${user.login}"/></td>
+                <td align="center" size="30"><c:out value="${user.username}"/></td>
                 <td align="center" size="30"><c:out value="${user.password}"/></td>
                 <td align="center" size="30"><c:out value="${user.role}"/></td>
                 <td>

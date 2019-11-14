@@ -8,6 +8,9 @@ import task5.spring.model.User;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Service class for {@link }
+ */
 
 public interface UserService {
 
@@ -38,7 +41,7 @@ public interface UserService {
 
     // два метода из Секьюрити
     void save(User user);
-    User findByLogin(String login);
+    User findByUsername(String username);
 
 
 

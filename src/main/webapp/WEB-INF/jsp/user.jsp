@@ -18,7 +18,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Login</th>
+            <th>Username</th>
             <th>Password</th>
             <th>Role</th>
 
@@ -31,7 +31,7 @@
             <tr>
                 <td><c:out value="${user.id}"/></td>
                 <td><c:out value="${user.name}"/></td>
-                <td><c:out value="${user.login}"/></td>
+                <td><c:out value="${user.username}"/></td>
                 <td><c:out value="${user.password}"/></td>
                 <td><c:out value="${user.role}"/></td>
 
